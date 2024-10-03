@@ -1,5 +1,5 @@
-AWSTemplateFormationVersion: '2010-09-09'
-Description: 'S3 bucket for our CICD PR'
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'S3 bucket with environment tagging'
 
 Parameters:
   Environment:
@@ -15,11 +15,13 @@ Resources:
     Type: 'AWS::S3::Bucket'
     Properties:
       BucketName: !Sub '${AWS::StackName}-${Environment}-bucket'
-    Tags:
-      - Key: Environment
-        Value: !Ref Environment
-  
-  Outputs:
-    BucketName:
-      Decription: 'Name of created S3 Bucket'
-      Value: !Ref MyS3Bucket
+      Tags:
+        - Key: Environment
+          Value: !Ref Environment
+        - Key: Project
+          Value: GithubActionsTesting
+
+Outputs:
+  BucketName:
+    Description: 'Name of the created S3 Bucket'
+    Value: !Ref MyS3Bucket
